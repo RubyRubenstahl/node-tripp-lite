@@ -106,6 +106,10 @@ UPS.prototype.setNvrFlags = function setNvrFlags(flags = {}) {
     return this;
 }
 
+UPS.prototype.resetVoltageRange = function resetVoltageRange() {
+    this.sendCommand('Z')
+}
+
 UPS.prototype.powerCycleRelay = function powerCycle(relay, delayTime = 30000) {
     this.relayOff(relay);
     setTimeout(async () => this.relayOn(relay), delayTime);
