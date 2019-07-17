@@ -57,7 +57,6 @@ UPS.prototype.sendCommand = function sendCommand(command, params = []) {
 }
 
 UPS.prototype.getStatus = function getStatus() {
-    console.log(this)
     const context = {
         sendCommand: (...args) => this.sendCommand(...args),
         data: {},
@@ -94,7 +93,6 @@ UPS.prototype.getStatus = function getStatus() {
 UPS.prototype.setNvrFlags = function setNvrFlags(flags = {}) {
     const currentState = getLoadInfo({ data: {}, sendCommand: (...args) => this.sendCommand(...args) }).data;
     const newState = { ...currentState, ...flags };
-    console.log(newState)
     const newBitStr = [
         newState.autostartAfterShutdown,
         newState.autostartAfterDelayedWakeup,
@@ -104,7 +102,6 @@ UPS.prototype.setNvrFlags = function setNvrFlags(flags = {}) {
         newState.enableBiweeklyAutoSelfTest,
     ].map(val => Number(val)).join('');
     const flagMask = parseInt(newBitStr, 2);
-    console.log(flagMask)
     this.sendCommand('I', [flagMask])
     return this;
 }
@@ -133,7 +130,6 @@ UPS.prototype.reboot = function () {
 UPS.prototype.writeUnitId = function (unitId) {
     const buf = new Buffer.alloc(2)
     buf.writeUInt16BE(unitId, 0);
-    console.log(buf.values())
     this.sendCommand('J', [...buf.values()]);
     return this;
 }
@@ -141,7 +137,6 @@ UPS.prototype.writeUnitId = function (unitId) {
 UPS.prototype.writePreDelay = function (delayTime) {
     const buf = new Buffer.alloc(2)
     buf.writeUInt16BE(delayTime, 0);
-    console.log(buf.values())
     this.sendCommand('N', [...buf.values()]);
     return this;
 }
@@ -157,7 +152,6 @@ UPS.prototype.masterRelayOff = function () {
 }
 
 UPS.prototype.relayOn = function relayOn(relay = 0) {
-    console.log(`Turning on relay ${relay}`);
     const relayId = 0x30 + relay;
     this.sendCommand('K', [relayId, '1'.charCodeAt(0)]);
     return this;
