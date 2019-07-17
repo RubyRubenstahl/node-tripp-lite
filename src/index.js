@@ -100,7 +100,7 @@ UPS.prototype.setNvrFlags = function setNvrFlags(flags = {}) {
     const newBitStr = [
         newState.autostartAfterShutdown,
         newState.autostartAfterDelayedWakeup,
-        newState.autostartAfterLvc,
+        newState.autostartAfterLowVoltageCutoff,
         newState.autostartAfterOverload,
         newState.autostartAfterOverTemp,
         newState.enableBiweeklyAutoSelfTest,
