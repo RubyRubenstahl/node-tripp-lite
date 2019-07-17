@@ -38,6 +38,10 @@ function UPS(productId) {
 
     this.device = new hid.HID(this.deviceDescriptor.path);
 
+    this.device.on('error', err => console.error(err.message))
+
+    // Send incoming data to dummy function
+    this.device.on('data', () => { });
 }
 
 
@@ -145,15 +149,6 @@ UPS.prototype.writePreDelay = function (delayTime) {
     return this;
 }
 
-UPS.prototype.masterRelayOn = function () {
-    this.relayOn(0);
-    return this;
-}
-
-UPS.prototype.masterRelayOff = function () {
-    this.relayOff(0);
-    return this;
-}
 
 UPS.prototype.relayOn = function relayOn(relay = 0) {
     const relayId = 0x30 + relay;
