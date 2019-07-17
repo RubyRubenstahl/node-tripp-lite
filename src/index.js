@@ -176,7 +176,7 @@ UPS.prototype.disableWatchdog = function disableWatchdog() {
 
 
 UPS.prototype.enableWatchdog = function enableWatchdog(delay = 60) {
-    const buf = new Buffer(1);
+    const buf = new Buffer.alloc(1);
     buf.writeUInt8(delay, 0)
     this.sendCommand('W', [...buf.values()])
     return this;

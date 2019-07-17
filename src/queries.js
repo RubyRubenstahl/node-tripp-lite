@@ -82,7 +82,7 @@ module.exports.getLoadInfo = getLoadInfo;
 
 function getFirmwareVersion(context) {
     const res = context.sendCommand('F');
-    const buf = new Buffer(res);
+    const buf = new Buffer.from(res);
     const partNo = buf.toString('utf8', 1, 5);
     const rev = buf.toString('utf8', 6, 7).trim();
     context.data.firmware = `${partNo} Rev ${rev}`;
@@ -93,7 +93,7 @@ module.exports.getFirmwareVersion = getFirmwareVersion;
 
 function getUsbFirmwareVersion(context) {
     const res = context.sendCommand('0');
-    const buf = new Buffer(res);
+    const buf = new Buffer.from(res);
     const partNo = buf.toString('utf8', 1, 5);
     const rev = buf.toString('utf8', 6, 7).trim();
     context.data.usbFirmware = `${partNo} Rev ${rev}`;
@@ -130,7 +130,7 @@ function getProductName(context) {
         const bytes = context.sendCommand([0x32 + index]).slice(1, -1);
         return [...acc, ...bytes]
     }, []).slice(0, -2);
-    context.data.productName = new Buffer(nameBytes).toString().trim();
+    context.data.productName = new Buffer.from(nameBytes).toString().trim();
     return context
 }
 module.exports.getProductName = getProductName;
@@ -164,7 +164,7 @@ module.exports.getModelVersion = getModelVersion;
 
 function getUnitId(context) {
     const res = context.sendCommand('U');
-    context.data.unitId = new Buffer(res).readUInt16BE(1)
+    context.data.unitId = new Buffer.from(res).readUInt16BE(1)
     return context;
 }
 module.exports.getUnitId = getUnitId;
