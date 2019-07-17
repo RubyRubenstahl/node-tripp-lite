@@ -167,6 +167,17 @@ UPS.prototype.relayOff = function relayOff(relay = 0) {
     return this;
 }
 
+UPS.prototype.masterRelayOn = function () {
+    this.relayOn(0);
+    return this;
+}
+
+UPS.prototype.masterRelayOff = function () {
+    this.relayOff(0);
+    return this;
+}
+
+
 UPS.prototype.disableWatchdog = function disableWatchdog() {
 
 
