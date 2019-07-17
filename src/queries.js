@@ -69,7 +69,7 @@ function getLoadInfo(context) {
         ...parseBitmap(res[5], [
             'autostartAfterShutdown',
             'autostartAfterDelayedWakeup',
-            'autostartAfterLvc',
+            'autostartAfterLowVoltageCutoff',
             'autostartAfterOverload',
             'autostartAfterOverTemp',
             'enableBiweeklyAutoSelfTest'

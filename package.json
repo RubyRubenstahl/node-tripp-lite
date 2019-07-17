@@ -1,16 +1,14 @@
 {
-  "name": "tripp-lite",
-  "version": "1.0.0",
-  "description": "",
+  "name": "node-tripp-lite",
+  "version": "0.0.1",
+  "description": "Controls Tripp-Lite UPSs via USB.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Ruby Rubenstahl",
+  "license": "MIT",
   "dependencies": {
-    "hid": "^1.0.1",
-    "node-hid": "^0.7.9",
-    "usb": "^1.6.0"
+    "node-hid": "^0.7.9"
   }
 }
