@@ -7,7 +7,7 @@ function getVoltage(context) {
     context.data = {
         ...context.data,
         acVoltage: getValFromHex(res, 1, 2),
-        dcVoltage: getValFromHex(res, 3, 2) * .1,
+        dcVoltage: +(getValFromHex(res, 3, 2) * .1).toFixed(2),
     }
     return context;
 }
@@ -52,8 +52,8 @@ function getVoltageRange(context) {
     const multiplier = context.data.nominalVac > 120 ? 1.917 : 1
     context.data = {
         ...context.data,
-        acVoltageMin: getValFromHex(res, 1, 2) * multiplier,
-        acVoltageMax: getValFromHex(res, 3, 2) * multiplier
+        acVoltageMin: +(getValFromHex(res, 1, 2) * multiplier).toFixed(2),
+        acVoltageMax: +(getValFromHex(res, 3, 2) * multiplier).toFixed(2)
     }
     return context;
 }
@@ -141,7 +141,7 @@ function getEnvironmental(context) {
     context.data = {
         ...context.data,
         temperature: getValFromHex(res, 1, 2),
-        frequency: getValFromHex(res, 3, 3) * .1,
+        frequency: +(getValFromHex(res, 3, 3) * .1).toFixed(2),
         frequencyMode: getValFromHex(res, 6, 1) ? 60 : 50
     }
     return context;
