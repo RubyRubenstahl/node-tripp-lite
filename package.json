@@ -1,0 +1,16 @@
+{
+  "name": "tripp-lite",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hid": "^1.0.1",
+    "node-hid": "^0.7.9",
+    "usb": "^1.6.0"
+  }
+}
