@@ -60,6 +60,26 @@ function getVoltageRange(context) {
 module.exports.getVoltageRange = getVoltageRange;
 
 
+function getLoadInfo(context) {
+    const res = context.sendCommand('L');
+    context.data = {
+        ...context.data,
+        loadLevel: getValFromHex(res, 1, 2),
+        batteryCharge: getValFromHex(res, 3, 2),
+        ...parseBitmap(res[5], [
+            'autostartAfterShutdown',
+            'autostartAfterDelayedWakeup',
+            'autostartAfterLvc',
+            'autostartAfterOverload',
+            'autostartAfterOverTemp',
+            'enableBiweeklyAutoSelfTest'
+
+        ]),
+    }
+    return context;
+}
+module.exports.getLoadInfo = getLoadInfo;
+
 function getFirmwareVersion(context) {
     const res = context.sendCommand('F');
     const buf = new Buffer(res);
