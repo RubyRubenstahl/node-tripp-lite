@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> Controls Tripp-Lite UPSs via USB.
+> `node-tripp-lite` allows you to minitor and controls Tripp-Lite UPSs via USB. It uses the `node-hid` library for communications and is compatible with both Windows and Linux nodejs versions. 
 
 ## Install
 
@@ -60,13 +60,14 @@ Example output:
 }
 
 */
+
+// Turn on master relay
+ups.masterRelayOn()
+
+// Power cycle relay 1 with a 60 second wait time
+ups.powerCycleRelay(1, 60000)
 ```
 
-## Run tests
-
-```sh
-npm run test
-```
 
 ## Author
 
