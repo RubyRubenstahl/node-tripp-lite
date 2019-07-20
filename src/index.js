@@ -196,6 +196,10 @@ function UPS(productId) {
      * @param {boolean} flags.autostartAfterOverload - Automatically restart the system after overload. 
      * @param {boolean} flags.autostartAfterOverTemp - Automatically restart the system after an over temp situation. 
      * @param {boolean} flags.enableBiweeklyAutoSelfTest - Enable 14 day self tests. 
+     * @example
+     * ups.writeSettings({
+     *     autostartAfterShutdown: true
+     * })
      */
     this.writeSettings = function writeSettings(flags = {}) {
         const currentState = {
@@ -226,6 +230,8 @@ function UPS(productId) {
 
     /**
      * Resets the min and max voltage registers
+     * @example
+     * ups.resetVoltageRange();
      */
     this.resetVoltageRange = function resetVoltageRange() {
         this._sendCommand('Z')
@@ -235,6 +241,9 @@ function UPS(productId) {
      * Power cycle a specific relay on the ups
      * @param {number} relay - Relay index (0=master)
      * @param {number} delayTime - Delay time in ms before turning power back on
+     * @example
+     * // Power cycle load 1 relay, waiting 20 seconds before restarting
+     * ups.powerCycleRelay(1, 20000)
      */
     this.powerCycleRelay = function powerCycle(relay, delayTime = 30000) {
         this.relayOff(relay);
@@ -244,6 +253,9 @@ function UPS(productId) {
     /**
      * Power cycle the master relay
      * @param {number} delayTime - Delay time in ms before turning power back on
+     * @example
+     * // Power cycle master relay, waiting 60 seconds before restarting
+     * ups.powerCycleMasterRelay(60000)
      */
     this.powerCycleMasterRelay = function powerCycleMasterRelay(delayTime = 30000) {
         this.relayOff(0);
@@ -253,6 +265,7 @@ function UPS(productId) {
     /**
      * Trigger a self-test
      */
+
     this.selfTest = function () {
         this._sendCommand('A');
         return this;
