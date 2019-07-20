@@ -71,11 +71,18 @@ enableBiweeklyAutoSelfTest: false
 
 */
 ```
-### API
+# API
 ## Classes
 
 <dl>
 <dt><a href="#UPS">UPS</a></dt>
+<dd></dd>
+</dl>
+
+## Events
+
+<dl>
+<dt><a href="#event_change">"change"</a></dt>
 <dd></dd>
 </dl>
 
@@ -93,6 +100,7 @@ enableBiweeklyAutoSelfTest: false
 
 * [UPS](#UPS)
     * _instance_
+        * [.getStatus()](#UPS+getStatus) ⇒ [<code>Promise.&lt;UPSState&gt;</code>](#UPSState)
         * [.writeSettings(flags)](#UPS+writeSettings)
         * [.resetVoltageRange()](#UPS+resetVoltageRange)
         * [.powerCycleRelay(relay, delayTime)](#UPS+powerCycleRelay)
@@ -110,6 +118,17 @@ enableBiweeklyAutoSelfTest: false
     * _static_
         * [.list()](#UPS.list) ⇒ <code>array</code>
 
+<a name="UPS+getStatus"></a>
+
+### ups.getStatus() ⇒ [<code>Promise.&lt;UPSState&gt;</code>](#UPSState)
+Return state immediately if initialized,Check every 100ms until initialization iscomplete otherwise.
+
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Returns**: [<code>Promise.&lt;UPSState&gt;</code>](#UPSState) - - Object containing the state of the UPS  
+**Example**  
+```js
+ups.getStatus().then(  status=>console.log(status));
+```
 <a name="UPS+writeSettings"></a>
 
 ### ups.writeSettings(flags)
@@ -127,12 +146,20 @@ Write system settings to the UPS. Any settings not included to will be left the
 | flags.autostartAfterOverTemp | <code>boolean</code> | Automatically restart the system after an over temp situation. |
 | flags.enableBiweeklyAutoSelfTest | <code>boolean</code> | Enable 14 day self tests. |
 
+**Example**  
+```js
+ups.writeSettings({    autostartAfterShutdown: true})
+```
 <a name="UPS+resetVoltageRange"></a>
 
 ### ups.resetVoltageRange()
 Resets the min and max voltage registers
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.resetVoltageRange();
+```
 <a name="UPS+powerCycleRelay"></a>
 
 ### ups.powerCycleRelay(relay, delayTime)
@@ -145,6 +172,10 @@ Power cycle a specific relay on the ups
 | relay | <code>number</code> | Relay index (0=master) |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
+**Example**  
+```js
+// Power cycle load 1 relay, waiting 20 seconds before restartingups.powerCycleRelay(1, 20000)
+```
 <a name="UPS+powerCycleMasterRelay"></a>
 
 ### ups.powerCycleMasterRelay(delayTime)
@@ -156,6 +187,10 @@ Power cycle the master relay
 | --- | --- | --- |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
+**Example**  
+```js
+// Power cycle master relay, waiting 60 seconds before restartingups.powerCycleMasterRelay(60000)
+```
 <a name="UPS+selfTest"></a>
 
 ### ups.selfTest()
@@ -248,6 +283,22 @@ Get a list of tripp-lite UPSs connected
 
 **Kind**: static method of [<code>UPS</code>](#UPS)  
 **Returns**: <code>array</code> - - Array of available devices  
+<a name="event_change"></a>
+
+## "change"
+**Kind**: event emitted  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| property | <code>string</code> | Name of the property that has changed |
+| value | <code>boolean</code> \| <code>string</code> \| <code>number</code> \| <code>array</code> | The new value of the property |
+| oldValue | <code>boolean</code> \| <code>string</code> \| <code>number</code> \| <code>array</code> | The old value of the property |
+
+**Example**  
+```js
+ups.on('change', ({ property, value }) =>  console.log(`The ${property} value has changed to ${value}`))
+```
 <a name="UPSState"></a>
 
 ## UPSState : <code>Object</code>
@@ -292,6 +343,7 @@ Get a list of tripp-lite UPSs connected
 | voltageDc | <code>number</code> | Current DC voltage |
 | watchdogDelay | <code>number</code> |  |
 | watchdogEnabled | <code>boolean</code> |  |
+
 
 
 ## Author
