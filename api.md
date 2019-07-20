@@ -17,17 +17,8 @@ npm install node-tripp-lite
 ```js
 const UPS = require('node-tripp-lite');
 const ups = new UPS();
+console.log(ups.getStatus())
 
-// Turn on master relay
-ups.masterRelayOn()
-
-// Turn off the load on relay 2
-ups.relayOff(2)
-
-// Power cycle relay 1 with a 60 second wait time
-ups.powerCycleRelay(1, 60000)
-
-ups.getStatus().then(status => console.log(status))
 /*
 Example output:
 {
@@ -70,64 +61,123 @@ enableBiweeklyAutoSelfTest: false
 }
 
 */
+
+// Turn on master relay
+ups.masterRelayOn()
+
+// Power cycle relay 1 with a 60 second wait time
+ups.powerCycleRelay(1, 60000)
 ```
 ### API
-<a name="module_UPS"></a>
+## Functions
 
-## UPS
+<dl>
+<dt><a href="#_registerReceivedOpcode">_registerReceivedOpcode(packet)</a></dt>
+<dd><p>Keeps a list of recieved opcodes to determine
+  When we&#39;ve received all neccessary data to
+  provide full state to getStatus function</p>
+</dd>
+<dt><a href="#_sendCommand">_sendCommand(opcode, params)</a></dt>
+<dd><p>Pack and send a command to the UPS</p>
+</dd>
+<dt><a href="#getStatus">getStatus()</a> ⇒ <code><a href="#UPSState">UPSState</a></code></dt>
+<dd><p>Return state immediately if initialized,
+Check every 100ms until initialization is
+complete otherwise.</p>
+</dd>
+<dt><a href="#writeSettings">writeSettings(flags)</a></dt>
+<dd><p>Write system settings to the UPS. 
+Any settings not included to will be left the same.</p>
+</dd>
+<dt><a href="#resetVoltageRange">resetVoltageRange()</a></dt>
+<dd><p>Resets the min and max voltage registers</p>
+</dd>
+<dt><a href="#powerCycleRelay">powerCycleRelay(relay, delayTime)</a></dt>
+<dd><p>Power cycle a specific relay on the ups</p>
+</dd>
+<dt><a href="#powerCycleMasterRelay">powerCycleMasterRelay(delayTime)</a></dt>
+<dd><p>Power cycle the master relay</p>
+</dd>
+<dt><a href="#selfTest">selfTest()</a></dt>
+<dd><p>Trigger a self-test</p>
+</dd>
+<dt><a href="#reboot">reboot()</a></dt>
+<dd><p>Reboot the UPS</p>
+</dd>
+<dt><a href="#writeUnitId">writeUnitId(unitId)</a></dt>
+<dd><p>Write the unit ID to the UPS</p>
+</dd>
+<dt><a href="#writePreDelay">writePreDelay(delayTime)</a></dt>
+<dd><p>Write the pre-delay (used before shutdown and relay control functions)</p>
+</dd>
+<dt><a href="#relayOn">relayOn(relay)</a></dt>
+<dd><p>Turns a relay on</p>
+</dd>
+<dt><a href="#relayOff">relayOff(relay)</a></dt>
+<dd><p>Turns a relay off</p>
+</dd>
+<dt><a href="#masterRelayOn">masterRelayOn()</a></dt>
+<dd><p>Turns master relay on</p>
+</dd>
+<dt><a href="#masterRelayOff">masterRelayOff()</a></dt>
+<dd><p>Turns master relay off</p>
+</dd>
+<dt><a href="#disableWatchdog">disableWatchdog()</a></dt>
+<dd><p>Disables the watchdog feature</p>
+</dd>
+<dt><a href="#enableWatchdog">enableWatchdog(delay)</a></dt>
+<dd><p>Enables the watchdog feature</p>
+</dd>
+</dl>
 
-* [UPS](#module_UPS)
-    * [~UPS](#module_UPS..UPS)
-        * _instance_
-            * [.writeSettings(flags)](#module_UPS..UPS+writeSettings)
-            * [.resetVoltageRange()](#module_UPS..UPS+resetVoltageRange)
-            * [.powerCycleRelay(relay, delayTime)](#module_UPS..UPS+powerCycleRelay)
-            * [.powerCycleMasterRelay(delayTime)](#module_UPS..UPS+powerCycleMasterRelay)
-            * [.selfTest()](#module_UPS..UPS+selfTest)
-            * [.reboot()](#module_UPS..UPS+reboot)
-            * [.writeUnitId(unitId)](#module_UPS..UPS+writeUnitId)
-            * [.writePreDelay(delayTime)](#module_UPS..UPS+writePreDelay)
-            * [.relayOn(relay)](#module_UPS..UPS+relayOn)
-            * [.relayOff(relay)](#module_UPS..UPS+relayOff)
-            * [.masterRelayOn()](#module_UPS..UPS+masterRelayOn)
-            * [.masterRelayOff()](#module_UPS..UPS+masterRelayOff)
-            * [.disableWatchdog()](#module_UPS..UPS+disableWatchdog)
-            * [.enableWatchdog(delay)](#module_UPS..UPS+enableWatchdog)
-        * _static_
-            * [.list()](#module_UPS..UPS.list) ⇒ <code>array</code>
-    * [~UPSState](#module_UPS..UPSState) : <code>Object</code>
+## Typedefs
 
-<a name="module_UPS..UPS"></a>
+<dl>
+<dt><a href="#UPSState">UPSState</a> : <code>Object</code></dt>
+<dd></dd>
+</dl>
 
-### UPS~UPS
-**Kind**: inner class of [<code>UPS</code>](#module_UPS)  
+<a name="_registerReceivedOpcode"></a>
 
-* [~UPS](#module_UPS..UPS)
-    * _instance_
-        * [.writeSettings(flags)](#module_UPS..UPS+writeSettings)
-        * [.resetVoltageRange()](#module_UPS..UPS+resetVoltageRange)
-        * [.powerCycleRelay(relay, delayTime)](#module_UPS..UPS+powerCycleRelay)
-        * [.powerCycleMasterRelay(delayTime)](#module_UPS..UPS+powerCycleMasterRelay)
-        * [.selfTest()](#module_UPS..UPS+selfTest)
-        * [.reboot()](#module_UPS..UPS+reboot)
-        * [.writeUnitId(unitId)](#module_UPS..UPS+writeUnitId)
-        * [.writePreDelay(delayTime)](#module_UPS..UPS+writePreDelay)
-        * [.relayOn(relay)](#module_UPS..UPS+relayOn)
-        * [.relayOff(relay)](#module_UPS..UPS+relayOff)
-        * [.masterRelayOn()](#module_UPS..UPS+masterRelayOn)
-        * [.masterRelayOff()](#module_UPS..UPS+masterRelayOff)
-        * [.disableWatchdog()](#module_UPS..UPS+disableWatchdog)
-        * [.enableWatchdog(delay)](#module_UPS..UPS+enableWatchdog)
-    * _static_
-        * [.list()](#module_UPS..UPS.list) ⇒ <code>array</code>
+## \_registerReceivedOpcode(packet)
+Keeps a list of recieved opcodes to determine
+  When we've received all neccessary data to
+  provide full state to getStatus function
 
-<a name="module_UPS..UPS+writeSettings"></a>
+**Kind**: global function  
 
-#### ups.writeSettings(flags)
+| Param | Type | Description |
+| --- | --- | --- |
+| packet | <code>array</code> | Incoming packet from the UPS. An array of bytes. |
+
+<a name="_sendCommand"></a>
+
+## \_sendCommand(opcode, params)
+Pack and send a command to the UPS
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| opcode | <code>string</code> | single character opcode |
+| params | <code>array</code> | array of bytes representing the command parameters. |
+
+<a name="getStatus"></a>
+
+## getStatus() ⇒ [<code>UPSState</code>](#UPSState)
+Return state immediately if initialized,
+Check every 100ms until initialization is
+complete otherwise.
+
+**Kind**: global function  
+**Returns**: [<code>UPSState</code>](#UPSState) - - Object containing the state of the UPS  
+<a name="writeSettings"></a>
+
+## writeSettings(flags)
 Write system settings to the UPS. 
 Any settings not included to will be left the same.
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -139,131 +189,124 @@ Any settings not included to will be left the same.
 | flags.autostartAfterOverTemp | <code>boolean</code> | Automatically restart the system after an over temp situation. |
 | flags.enableBiweeklyAutoSelfTest | <code>boolean</code> | Enable 14 day self tests. |
 
-<a name="module_UPS..UPS+resetVoltageRange"></a>
+<a name="resetVoltageRange"></a>
 
-#### ups.resetVoltageRange()
+## resetVoltageRange()
 Resets the min and max voltage registers
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+powerCycleRelay"></a>
+**Kind**: global function  
+<a name="powerCycleRelay"></a>
 
-#### ups.powerCycleRelay(relay, delayTime)
+## powerCycleRelay(relay, delayTime)
 Power cycle a specific relay on the ups
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | Relay index (0=master) |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
-<a name="module_UPS..UPS+powerCycleMasterRelay"></a>
+<a name="powerCycleMasterRelay"></a>
 
-#### ups.powerCycleMasterRelay(delayTime)
+## powerCycleMasterRelay(delayTime)
 Power cycle the master relay
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
-<a name="module_UPS..UPS+selfTest"></a>
+<a name="selfTest"></a>
 
-#### ups.selfTest()
+## selfTest()
 Trigger a self-test
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+reboot"></a>
+**Kind**: global function  
+<a name="reboot"></a>
 
-#### ups.reboot()
+## reboot()
 Reboot the UPS
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+writeUnitId"></a>
+**Kind**: global function  
+<a name="writeUnitId"></a>
 
-#### ups.writeUnitId(unitId)
+## writeUnitId(unitId)
 Write the unit ID to the UPS
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | unitId | <code>number</code> | 16bit unit number |
 
-<a name="module_UPS..UPS+writePreDelay"></a>
+<a name="writePreDelay"></a>
 
-#### ups.writePreDelay(delayTime)
+## writePreDelay(delayTime)
 Write the pre-delay (used before shutdown and relay control functions)
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delayTime | <code>number</code> | delay time in seconds |
 
-<a name="module_UPS..UPS+relayOn"></a>
+<a name="relayOn"></a>
 
-#### ups.relayOn(relay)
+## relayOn(relay)
 Turns a relay on
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
-<a name="module_UPS..UPS+relayOff"></a>
+<a name="relayOff"></a>
 
-#### ups.relayOff(relay)
+## relayOff(relay)
 Turns a relay off
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
-<a name="module_UPS..UPS+masterRelayOn"></a>
+<a name="masterRelayOn"></a>
 
-#### ups.masterRelayOn()
+## masterRelayOn()
 Turns master relay on
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+masterRelayOff"></a>
+**Kind**: global function  
+<a name="masterRelayOff"></a>
 
-#### ups.masterRelayOff()
+## masterRelayOff()
 Turns master relay off
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+disableWatchdog"></a>
+**Kind**: global function  
+<a name="disableWatchdog"></a>
 
-#### ups.disableWatchdog()
+## disableWatchdog()
 Disables the watchdog feature
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+enableWatchdog"></a>
+**Kind**: global function  
+<a name="enableWatchdog"></a>
 
-#### ups.enableWatchdog(delay)
+## enableWatchdog(delay)
 Enables the watchdog feature
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: global function  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delay | <code>number</code> | Delay time in seconds (must be >1); |
 
-<a name="module_UPS..UPS.list"></a>
+<a name="UPSState"></a>
 
-#### UPS.list() ⇒ <code>array</code>
-Get a list of tripp-lite UPSs connected
-
-**Kind**: static method of [<code>UPS</code>](#module_UPS..UPS)  
-**Returns**: <code>array</code> - - Array of available devices  
-<a name="module_UPS..UPSState"></a>
-
-### UPS~UPSState : <code>Object</code>
-**Kind**: inner typedef of [<code>UPS</code>](#module_UPS)  
+## UPSState : <code>Object</code>
+**Kind**: global typedef  
 **Properties**
 
 | Name | Type | Description |
