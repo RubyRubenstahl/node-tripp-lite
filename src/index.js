@@ -1,5 +1,4 @@
 
-/**@module UPS */
 
 const hid = require('node-hid');
 const handleIncoming = require('./handleIncoming')
@@ -9,7 +8,7 @@ const { onesComplement } = require('./helpers')
 const trippLiteVendorId = 0x09AE;
 
 /** 
- * @constructor 
+ * @constructor
  * @typicalName ups
  * */
 function UPS(productId) {

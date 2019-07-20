@@ -72,62 +72,50 @@ enableBiweeklyAutoSelfTest: false
 */
 ```
 ### API
-<a name="module_UPS"></a>
+## Classes
+
+<dl>
+<dt><a href="#UPS">UPS</a></dt>
+<dd></dd>
+</dl>
+
+## Typedefs
+
+<dl>
+<dt><a href="#UPSState">UPSState</a> : <code>Object</code></dt>
+<dd></dd>
+</dl>
+
+<a name="UPS"></a>
 
 ## UPS
+**Kind**: global class  
 
-* [UPS](#module_UPS)
-    * [~UPS](#module_UPS..UPS)
-        * _instance_
-            * [.writeSettings(flags)](#module_UPS..UPS+writeSettings)
-            * [.resetVoltageRange()](#module_UPS..UPS+resetVoltageRange)
-            * [.powerCycleRelay(relay, delayTime)](#module_UPS..UPS+powerCycleRelay)
-            * [.powerCycleMasterRelay(delayTime)](#module_UPS..UPS+powerCycleMasterRelay)
-            * [.selfTest()](#module_UPS..UPS+selfTest)
-            * [.reboot()](#module_UPS..UPS+reboot)
-            * [.writeUnitId(unitId)](#module_UPS..UPS+writeUnitId)
-            * [.writePreDelay(delayTime)](#module_UPS..UPS+writePreDelay)
-            * [.relayOn(relay)](#module_UPS..UPS+relayOn)
-            * [.relayOff(relay)](#module_UPS..UPS+relayOff)
-            * [.masterRelayOn()](#module_UPS..UPS+masterRelayOn)
-            * [.masterRelayOff()](#module_UPS..UPS+masterRelayOff)
-            * [.disableWatchdog()](#module_UPS..UPS+disableWatchdog)
-            * [.enableWatchdog(delay)](#module_UPS..UPS+enableWatchdog)
-        * _static_
-            * [.list()](#module_UPS..UPS.list) ⇒ <code>array</code>
-    * [~UPSState](#module_UPS..UPSState) : <code>Object</code>
-
-<a name="module_UPS..UPS"></a>
-
-### UPS~UPS
-**Kind**: inner class of [<code>UPS</code>](#module_UPS)  
-
-* [~UPS](#module_UPS..UPS)
+* [UPS](#UPS)
     * _instance_
-        * [.writeSettings(flags)](#module_UPS..UPS+writeSettings)
-        * [.resetVoltageRange()](#module_UPS..UPS+resetVoltageRange)
-        * [.powerCycleRelay(relay, delayTime)](#module_UPS..UPS+powerCycleRelay)
-        * [.powerCycleMasterRelay(delayTime)](#module_UPS..UPS+powerCycleMasterRelay)
-        * [.selfTest()](#module_UPS..UPS+selfTest)
-        * [.reboot()](#module_UPS..UPS+reboot)
-        * [.writeUnitId(unitId)](#module_UPS..UPS+writeUnitId)
-        * [.writePreDelay(delayTime)](#module_UPS..UPS+writePreDelay)
-        * [.relayOn(relay)](#module_UPS..UPS+relayOn)
-        * [.relayOff(relay)](#module_UPS..UPS+relayOff)
-        * [.masterRelayOn()](#module_UPS..UPS+masterRelayOn)
-        * [.masterRelayOff()](#module_UPS..UPS+masterRelayOff)
-        * [.disableWatchdog()](#module_UPS..UPS+disableWatchdog)
-        * [.enableWatchdog(delay)](#module_UPS..UPS+enableWatchdog)
+        * [.writeSettings(flags)](#UPS+writeSettings)
+        * [.resetVoltageRange()](#UPS+resetVoltageRange)
+        * [.powerCycleRelay(relay, delayTime)](#UPS+powerCycleRelay)
+        * [.powerCycleMasterRelay(delayTime)](#UPS+powerCycleMasterRelay)
+        * [.selfTest()](#UPS+selfTest)
+        * [.reboot()](#UPS+reboot)
+        * [.writeUnitId(unitId)](#UPS+writeUnitId)
+        * [.writePreDelay(delayTime)](#UPS+writePreDelay)
+        * [.relayOn(relay)](#UPS+relayOn)
+        * [.relayOff(relay)](#UPS+relayOff)
+        * [.masterRelayOn()](#UPS+masterRelayOn)
+        * [.masterRelayOff()](#UPS+masterRelayOff)
+        * [.disableWatchdog()](#UPS+disableWatchdog)
+        * [.enableWatchdog(delay)](#UPS+enableWatchdog)
     * _static_
-        * [.list()](#module_UPS..UPS.list) ⇒ <code>array</code>
+        * [.list()](#UPS.list) ⇒ <code>array</code>
 
-<a name="module_UPS..UPS+writeSettings"></a>
+<a name="UPS+writeSettings"></a>
 
-#### ups.writeSettings(flags)
-Write system settings to the UPS. 
-Any settings not included to will be left the same.
+### ups.writeSettings(flags)
+Write system settings to the UPS. Any settings not included to will be left the same.
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -139,131 +127,131 @@ Any settings not included to will be left the same.
 | flags.autostartAfterOverTemp | <code>boolean</code> | Automatically restart the system after an over temp situation. |
 | flags.enableBiweeklyAutoSelfTest | <code>boolean</code> | Enable 14 day self tests. |
 
-<a name="module_UPS..UPS+resetVoltageRange"></a>
+<a name="UPS+resetVoltageRange"></a>
 
-#### ups.resetVoltageRange()
+### ups.resetVoltageRange()
 Resets the min and max voltage registers
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+powerCycleRelay"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+powerCycleRelay"></a>
 
-#### ups.powerCycleRelay(relay, delayTime)
+### ups.powerCycleRelay(relay, delayTime)
 Power cycle a specific relay on the ups
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | Relay index (0=master) |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
-<a name="module_UPS..UPS+powerCycleMasterRelay"></a>
+<a name="UPS+powerCycleMasterRelay"></a>
 
-#### ups.powerCycleMasterRelay(delayTime)
+### ups.powerCycleMasterRelay(delayTime)
 Power cycle the master relay
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delayTime | <code>number</code> | Delay time in ms before turning power back on |
 
-<a name="module_UPS..UPS+selfTest"></a>
+<a name="UPS+selfTest"></a>
 
-#### ups.selfTest()
+### ups.selfTest()
 Trigger a self-test
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+reboot"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+reboot"></a>
 
-#### ups.reboot()
+### ups.reboot()
 Reboot the UPS
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+writeUnitId"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+writeUnitId"></a>
 
-#### ups.writeUnitId(unitId)
+### ups.writeUnitId(unitId)
 Write the unit ID to the UPS
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | unitId | <code>number</code> | 16bit unit number |
 
-<a name="module_UPS..UPS+writePreDelay"></a>
+<a name="UPS+writePreDelay"></a>
 
-#### ups.writePreDelay(delayTime)
+### ups.writePreDelay(delayTime)
 Write the pre-delay (used before shutdown and relay control functions)
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delayTime | <code>number</code> | delay time in seconds |
 
-<a name="module_UPS..UPS+relayOn"></a>
+<a name="UPS+relayOn"></a>
 
-#### ups.relayOn(relay)
+### ups.relayOn(relay)
 Turns a relay on
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
-<a name="module_UPS..UPS+relayOff"></a>
+<a name="UPS+relayOff"></a>
 
-#### ups.relayOff(relay)
+### ups.relayOff(relay)
 Turns a relay off
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
-<a name="module_UPS..UPS+masterRelayOn"></a>
+<a name="UPS+masterRelayOn"></a>
 
-#### ups.masterRelayOn()
+### ups.masterRelayOn()
 Turns master relay on
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+masterRelayOff"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+masterRelayOff"></a>
 
-#### ups.masterRelayOff()
+### ups.masterRelayOff()
 Turns master relay off
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+disableWatchdog"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+disableWatchdog"></a>
 
-#### ups.disableWatchdog()
+### ups.disableWatchdog()
 Disables the watchdog feature
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
-<a name="module_UPS..UPS+enableWatchdog"></a>
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
+<a name="UPS+enableWatchdog"></a>
 
-#### ups.enableWatchdog(delay)
+### ups.enableWatchdog(delay)
 Enables the watchdog feature
 
-**Kind**: instance method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: instance method of [<code>UPS</code>](#UPS)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | delay | <code>number</code> | Delay time in seconds (must be >1); |
 
-<a name="module_UPS..UPS.list"></a>
+<a name="UPS.list"></a>
 
-#### UPS.list() ⇒ <code>array</code>
+### UPS.list() ⇒ <code>array</code>
 Get a list of tripp-lite UPSs connected
 
-**Kind**: static method of [<code>UPS</code>](#module_UPS..UPS)  
+**Kind**: static method of [<code>UPS</code>](#UPS)  
 **Returns**: <code>array</code> - - Array of available devices  
-<a name="module_UPS..UPSState"></a>
+<a name="UPSState"></a>
 
-### UPS~UPSState : <code>Object</code>
-**Kind**: inner typedef of [<code>UPS</code>](#module_UPS)  
+## UPSState : <code>Object</code>
+**Kind**: global typedef  
 **Properties**
 
 | Name | Type | Description |
