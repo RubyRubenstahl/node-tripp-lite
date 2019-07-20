@@ -1,7 +1,8 @@
 
-
+const EventEmitter = require('events').EventEmitter;
+const util = require('util');
 const hid = require('node-hid');
-const handleIncoming = require('./handleIncoming')
+const deepEqual = require('fast-deep-equal');
 const sortObject = require('sort-object')
 const { onesComplement } = require('./helpers')
 
@@ -57,7 +58,7 @@ function UPS(productId) {
     this._handleIncomingData = function _handleIncomingData(packet) {
         const newState = handleIncoming({ data: this.state, packet, nameParts: this.deviceNameParts })
         newState.deviceName = this.deviceNameParts.join('')
-        this.state = sortObject(newState);
+        this._setState(newState);
         this._registerReceivedOpcode(packet);
     }
 
@@ -100,6 +101,21 @@ function UPS(productId) {
         this.device.write([0x00, 0x3A, ...commandBytes, checksum, 0x0D]);
     }
 
+    this._setState = function _setState(newState) {
+        this._emitStateChanges(this.state, newState);
+        this.state = sortObject(newState)
+    }
+
+    this._emitStateChanges = function _emitStateChanges(oldState, newState) {
+        if (!this.initialized) {
+            return
+        }
+        Object.keys(newState).forEach(key => {
+            if (!deepEqual(oldState[key], newState[key])) {
+                this.emit('change', { property: key, value: newState[key], oldValue: oldState[key] })
+            }
+        })
+    }
 
     /**
      * @typedef {Object} UPSState

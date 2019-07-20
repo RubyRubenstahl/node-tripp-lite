@@ -9,6 +9,7 @@
   "author": "Ruby Rubenstahl",
   "license": "MIT",
   "dependencies": {
+    "fast-deep-equal": "^2.0.1",
     "node-hid": "^0.7.9",
     "sort-object": "^3.0.2"
   }
