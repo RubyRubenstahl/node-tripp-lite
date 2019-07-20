@@ -1,4 +1,5 @@
 const hid = require('node-hid');
+const sortObject = require('sort-object')
 
 const trippLiteVendorId = 0x09AE;
 
