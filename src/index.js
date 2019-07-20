@@ -199,12 +199,12 @@ function UPS(productId) {
      */
     this.writeSettings = function writeSettings(flags = {}) {
         const currentState = {
-            autostartAfterShutdown: context.data.autostartAfterShutdown,
-            autostartAfterDelayedWakeup: context.data.autostartAfterDelayedWakeup,
-            autostartAfterLowVoltageCutoff: context.data.autostartAfterLowVoltageCutoff,
-            autostartAfterOverload: context.data.autostartAfterOverload,
-            autostartAfterOverTemp: context.data.autostartAfterOverTemp,
-            enableBiweeklyAutoSelfTest: context.data.enableBiweeklyAutoSelfTest,
+            autostartAfterShutdown: this.state.autostartAfterShutdown,
+            autostartAfterDelayedWakeup: this.state.autostartAfterDelayedWakeup,
+            autostartAfterLowVoltageCutoff: this.state.autostartAfterLowVoltageCutoff,
+            autostartAfterOverload: this.state.autostartAfterOverload,
+            autostartAfterOverTemp: this.state.autostartAfterOverTemp,
+            enableBiweeklyAutoSelfTest: this.state.enableBiweeklyAutoSelfTest,
         };
         const newState = { ...currentState, ...flags };
 
