@@ -163,9 +163,11 @@ function UPS(productId) {
      * Return state immediately if initialized,
      * Check every 100ms until initialization is
      * complete otherwise.
-     * @memberof TrippLite
-     * @function getStatus
-     * @returns {UPSState} - Object containing the state of the UPS
+     * @returns {Promise<UPSState>} - Object containing the state of the UPS
+     * @example 
+     * ups.getStatus().then(
+     *   status=>console.log(status)
+     * );
      **/
     this.getStatus = function getStatus() {
         return new Promise((resolve, reject) => {
