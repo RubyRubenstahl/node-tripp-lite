@@ -2,6 +2,7 @@
 const EventEmitter = require('events').EventEmitter;
 const util = require('util');
 const hid = require('node-hid');
+const handleIncoming = require('./handleIncoming');
 const deepEqual = require('fast-deep-equal');
 const sortObject = require('sort-object')
 const { onesComplement } = require('./helpers')
@@ -370,6 +371,17 @@ function UPS(productId) {
     }
 
 
+    /**
+     * @event change
+     * @type {object}
+     * @property {string} property Name of the property that has changed
+     * @property {boolean|string|number|array} value The new value of the property
+     * @property {boolean|string|number|array} oldValue The old value of the property
+     * @example
+     * ups.on('change', ({ property, value }) =>
+     *   console.log(`The ${property} value has changed to ${value}`)
+     * )
+     */
 
     this._initDevice(productId);
     this._startPolling();
@@ -386,5 +398,6 @@ UPS.list = function () {
     return list;
 }
 
+util.inherits(UPS, EventEmitter);
 
 module.exports = UPS;
