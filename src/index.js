@@ -14,7 +14,6 @@ function UPS(productId) {
     this.initialized = false;
     this.deviceNameParts = new Array(5);
 
-
     const devices = hid.devices();
 
     this.deviceDescriptor = productId ?
