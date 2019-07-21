@@ -47,6 +47,7 @@ voltageAc: 115,
 voltageAcMax: 117,
 voltageAcMin: 113,
 voltageDc: 13.6,
+...
 }
 ```
 # API
@@ -57,18 +58,15 @@ voltageDc: 13.6,
 <dd></dd>
 </dl>
 
-## Events
-
-<dl>
-<dt><a href="#event_change">"change"</a></dt>
-<dd></dd>
-</dl>
-
 ## Typedefs
 
 <dl>
+<dt><a href="#DeviceDescriptor">DeviceDescriptor</a> : <code>Object</code></dt>
+<dd><p>HID Descriptor for the device.</p>
+</dd>
 <dt><a href="#UPSState">UPSState</a> : <code>Object</code></dt>
-<dd></dd>
+<dd><p>State of a Tripp-Lite UPS</p>
+</dd>
 </dl>
 
 <a name="UPS"></a>
@@ -93,8 +91,12 @@ voltageDc: 13.6,
         * [.masterRelayOff()](#UPS+masterRelayOff)
         * [.disableWatchdog()](#UPS+disableWatchdog)
         * [.enableWatchdog(delay)](#UPS+enableWatchdog)
+        * ["change"](#UPS+event_change)
+        * ["initialized"](#UPS+event_initialized)
+        * ["connected"](#UPS+event_connected)
+        * ["disconnected"](#UPS+event_disconnected)
     * _static_
-        * [.list()](#UPS.list) ⇒ <code>array</code>
+        * [.list()](#UPS.list) ⇒ [<code>Array.&lt;DeviceDescriptor&gt;</code>](#DeviceDescriptor)
 
 <a name="UPS+getStatus"></a>
 
@@ -254,17 +256,12 @@ Enables the watchdog feature
 | --- | --- | --- |
 | delay | <code>number</code> | Delay time in seconds (must be >1); |
 
-<a name="UPS.list"></a>
+<a name="UPS+event_change"></a>
 
-### UPS.list() ⇒ <code>array</code>
-Get a list of tripp-lite UPSs connected
+### "change"
+Emitted when any device property changes
 
-**Kind**: static method of [<code>UPS</code>](#UPS)  
-**Returns**: <code>array</code> - - Array of available devices  
-<a name="event_change"></a>
-
-## "change"
-**Kind**: event emitted  
+**Kind**: event emitted by [<code>UPS</code>](#UPS)  
 **Properties**
 
 | Name | Type | Description |
@@ -277,9 +274,71 @@ Get a list of tripp-lite UPSs connected
 ```js
 ups.on('change', ({ property, value }) =>  console.log(`The ${property} value has changed to ${value}`))
 ```
+<a name="UPS+event_initialized"></a>
+
+### "initialized"
+Emitted when data for all properties has been received after a device isconnected.
+
+**Kind**: event emitted by [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.on('initialized', state =>  console.log(state))
+```
+<a name="UPS+event_connected"></a>
+
+### "connected"
+A device has been connected
+
+**Kind**: event emitted by [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.on('connected', deviceDescriptor =>  console.log(`Connected to Tripp-lite UPS ${deviceDescriptor.productId}`))
+```
+<a name="UPS+event_disconnected"></a>
+
+### "disconnected"
+A device has been disconnected
+
+**Kind**: event emitted by [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.on('disconnected', deviceDescriptor =>  console.log(`${deviceDescriptor.productId} has been disconnected`))
+```
+<a name="UPS.list"></a>
+
+### UPS.list() ⇒ [<code>Array.&lt;DeviceDescriptor&gt;</code>](#DeviceDescriptor)
+Get a list of tripp-lite UPSs connected. The product ID can be used in the constructor function to connect to a specific device
+
+**Kind**: static method of [<code>UPS</code>](#UPS)  
+**Returns**: [<code>Array.&lt;DeviceDescriptor&gt;</code>](#DeviceDescriptor) - - Array of available devices  
+**Example**  
+```js
+console.log( UPS.list() );//Example return value// {//   vendorId: 2478,//   productId: 1,//   path: '\\\\?\\hid#vid_09ae&pid_0001#6&1e92950d&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}',//   manufacturer: 'TRIPP LITE',//   product: 'TRIPP LITE SMART1000RM1U    ',//   release: 1,//   interface: -1,//   usagePage: 65440,//   usage: 1// }
+```
+<a name="DeviceDescriptor"></a>
+
+## DeviceDescriptor : <code>Object</code>
+HID Descriptor for the device.
+
+**Kind**: global typedef  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| vendorId | <code>number</code> | Device vendor Id |
+| productId | <code>number</code> | Used to select a specicific device in the constructor |
+| path | <code>string</code> | HID path for the device |
+| product | <code>string</code> | Product name |
+| manufacturer | <code>string</code> | Device manufacturor |
+| interface | <code>number</code> |  |
+| usagePage | <code>number</code> |  |
+| usage | <code>number</code> |  |
+
 <a name="UPSState"></a>
 
 ## UPSState : <code>Object</code>
+State of a Tripp-Lite UPS
+
 **Kind**: global typedef  
 **Properties**
 
@@ -298,11 +357,11 @@ ups.on('change', ({ property, value }) =>  console.log(`The ${property} value h
 | faults: | <code>string</code> | 'noFault', |
 | firmware | <code>string</code> | Firmware version |
 | frequency | <code>number</code> | AC Power frequencey |
-| frequencyMode |  | AC Frequencey mode |
+| frequencyMode | <code>number</code> | AC Frequencey mode |
 | idle | <code>boolean</code> |  |
 | inverterOn | <code>boolean</code> |  |
 | loadLevel | <code>number</code> | Output load level in percentage |
-| loadRelaysPowered | <code>array</code> | Array of boolean values indicating the state of the load relays.                     The number of relays included is determinted by the value of switchableLoads. |
+| loadRelaysPowered | <code>array</code> | Array of boolean values indicating the state of the load relays.                    The number of relays included is determinted by the value of switchableLoads. |
 | masterRelayPowered | <code>boolean</code> |  |
 | nominalVac | <code>number</code> | Nominal battery Voltage of the device |
 | nominalVdc | <code>number</code> | Nominal battery voltage of the device |
