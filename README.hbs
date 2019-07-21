@@ -29,26 +29,22 @@ ups.powerCycleRelay(1, 60000)
 
 ups.getStatus().then(status => console.log(status))
 // Example output (abberviated):
-{
-batteryLow: false,
-deviceName: 'TRIPP LITE SMART1000RM1',
-faults: 'noFault',
-firmware: '2602 Rev A',
-frequency: 59.9,
-frequencyMode: 60,
-inverterOn: false,
-loadRelaysPowered: [ true, true ],
-masterRelayPowered: true,
-nominalVac: 120,
-nominalVdc: 24,
-powerRating: 1000,
-switchableLoads: 2,
-voltageAc: 115,
-voltageAcMax: 117,
-voltageAcMin: 113,
-voltageDc: 13.6,
-...
-}
+// {
+// batteryLow: false,
+// deviceName: 'TRIPP LITE SMART1000RM1',
+// inverterOn: false,
+// loadRelaysPowered: [ true, true ],
+// masterRelayPowered: true,
+// nominalVac: 120,
+// nominalVdc: 24,
+// powerRating: 1000,
+// switchableLoads: 2,
+// voltageAc: 115,
+// voltageAcMax: 117,
+// voltageAcMin: 113,
+// voltageDc: 13.6,
+// ...
+// }
 ```
 # API
 {{>main}}

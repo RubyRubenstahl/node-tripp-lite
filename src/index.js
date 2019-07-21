@@ -162,13 +162,11 @@ function UPS(productId) {
 
 
     /**
-     * Return state immediately if initialized,
-     * Check every 100ms until initialization is
-     * complete otherwise.
+     * Returns a promise that will resolve to a `UPSState` Object
      * @returns {Promise<UPSState>} - Object containing the state of the UPS
      * @example 
      * ups.getStatus().then(
-     *   status=>console.log(status)
+     *   state=>console.log(state)
      * );
      **/
     this.getStatus = function getStatus() {

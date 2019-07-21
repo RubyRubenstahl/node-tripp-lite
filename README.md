@@ -29,26 +29,22 @@ ups.powerCycleRelay(1, 60000)
 
 ups.getStatus().then(status => console.log(status))
 // Example output (abberviated):
-{
-batteryLow: false,
-deviceName: 'TRIPP LITE SMART1000RM1',
-faults: 'noFault',
-firmware: '2602 Rev A',
-frequency: 59.9,
-frequencyMode: 60,
-inverterOn: false,
-loadRelaysPowered: [ true, true ],
-masterRelayPowered: true,
-nominalVac: 120,
-nominalVdc: 24,
-powerRating: 1000,
-switchableLoads: 2,
-voltageAc: 115,
-voltageAcMax: 117,
-voltageAcMin: 113,
-voltageDc: 13.6,
-...
-}
+// {
+// batteryLow: false,
+// deviceName: 'TRIPP LITE SMART1000RM1',
+// inverterOn: false,
+// loadRelaysPowered: [ true, true ],
+// masterRelayPowered: true,
+// nominalVac: 120,
+// nominalVdc: 24,
+// powerRating: 1000,
+// switchableLoads: 2,
+// voltageAc: 115,
+// voltageAcMax: 117,
+// voltageAcMin: 113,
+// voltageDc: 13.6,
+// ...
+// }
 ```
 # API
 ## Classes
@@ -101,13 +97,13 @@ voltageDc: 13.6,
 <a name="UPS+getStatus"></a>
 
 ### ups.getStatus() ⇒ [<code>Promise.&lt;UPSState&gt;</code>](#UPSState)
-Return state immediately if initialized,Check every 100ms until initialization iscomplete otherwise.
+Returns a promise that will resolve to a `UPSState` Object
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
 **Returns**: [<code>Promise.&lt;UPSState&gt;</code>](#UPSState) - - Object containing the state of the UPS  
 **Example**  
 ```js
-ups.getStatus().then(  status=>console.log(status));
+ups.getStatus().then(  state=>console.log(state));
 ```
 <a name="UPS+writeSettings"></a>
 
