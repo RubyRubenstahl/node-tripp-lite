@@ -14,7 +14,9 @@ const trippLiteVendorId = 0x09AE;
  * @typicalName ups
  * */
 function UPS(productId) {
-    this.state = {}
+    this.state = {
+    }
+    this.deviceDescriptor;
 
     // List of opcodes that will be polled 
     this.pollOpcodes = 'VDFLMPRSTUW012345';
@@ -34,25 +36,61 @@ function UPS(productId) {
     // chunks to be joined to create the full name
     this.deviceNameParts = new Array(5);
 
+    this.connected = false;
+
     // If a product ID is not specified, the first found device is used. 
-    this._initDevice = function _initDevice(productId) {
+    this._initDevice = function _initDevice() {
+        const productId = this.productId
         const devices = hid.devices();
         this.deviceDescriptor = productId ?
             devices.find(device => device.vendorId === trippLiteVendorId && device.productId === productId) :
             devices.find(device => device.vendorId === trippLiteVendorId);
 
-        if (!this.deviceDescriptor) {
-            if (productId) {
-                throw new Error(`No Tripp Lite UPS with a product id of "${productId}" found`);
+        if (this.deviceDescriptor) {
+            this.device = new hid.HID(this.deviceDescriptor.path);
+            this.device.on('error', err => console.error(err.message))
+            this.device.on('data', data => this._handleIncomingData(data));
+            this._setConnected(true);
             }
             else {
-                throw new Error(`No Tripp Lite UPS found`);
-            }
+            setTimeout(() => this._initDevice(), 1000)
         }
 
-        this.device = new hid.HID(this.deviceDescriptor.path);
-        this.device.on('error', err => console.error(err.message))
-        this.device.on('data', data => this._handleIncomingData(data));
+
+    }
+
+
+
+
+
+
+
+    this._setConnected = function (newValue) {
+        const valueChanged = this.connected !== newValue;
+        if (valueChanged && newValue == false) {
+            this.emit('disconnected', this.deviceDescriptor);
+            this._setInitialized(false)
+            this.deviceDescriptor = null;
+            this.device.close();
+            this._initDevice()
+        }
+
+        if (valueChanged && newValue == true) {
+            this.emit('connected', this.deviceDescriptor);
+        }
+        this.connected = newValue
+            }
+
+    this._setInitialized = function (newValue) {
+        const valueChanged = this.initialized !== newValue;
+        if (valueChanged && newValue === false) {
+            this.receivedOpcodes = [];
+        }
+
+        if (valueChanged && newValue === true) {
+            this.emit('initialized', this.state);
+        }
+        this.initialized = newValue
     }
 
 
@@ -83,7 +121,7 @@ function UPS(productId) {
             }
         });
         if (allOpcodesReceived) {
-            this.initialized = true;
+            this._setInitialized(true);
         }
     }
 
@@ -94,17 +132,28 @@ function UPS(productId) {
      * @param {array} params - array of bytes representing the command parameters. 
      */
     this._sendCommand = function _sendCommand(opcode, params = []) {
+        if (!this.deviceDescriptor) {
+            return;
+        }
+
         if (typeof opcode === 'string') {
             opcode = [opcode.charCodeAt(0)]
         }
         const commandBytes = [...opcode, ...params];
         const checksum = onesComplement(commandBytes)
+
+        try {
         this.device.write([0x00, 0x3A, ...commandBytes, checksum, 0x0D]);
+        } catch (err) {
+            console.error(err)
+            this._setConnected(false);
+        }
     }
 
     this._setState = function _setState(newState) {
-        this._emitStateChanges(this.state, newState);
-        this.state = sortObject(newState)
+        const mergedNewState = Object.assign({}, this.state, newState);
+        this._emitStateChanges(this.state, mergedNewState);
+        this.state = sortObject(mergedNewState)
     }
 
     this._emitStateChanges = function _emitStateChanges(oldState, newState) {
