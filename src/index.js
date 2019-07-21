@@ -14,8 +14,7 @@ const trippLiteVendorId = 0x09AE;
  * @typicalName ups
  * */
 function UPS(productId) {
-    this.state = {
-    }
+    this.state = {}
     this.deviceDescriptor;
 
     // List of opcodes that will be polled 
@@ -51,19 +50,13 @@ function UPS(productId) {
             this.device.on('error', err => console.error(err.message))
             this.device.on('data', data => this._handleIncomingData(data));
             this._setConnected(true);
-            }
-            else {
+        }
+        else {
             setTimeout(() => this._initDevice(), 1000)
         }
 
 
     }
-
-
-
-
-
-
 
     this._setConnected = function (newValue) {
         const valueChanged = this.connected !== newValue;
@@ -79,7 +72,7 @@ function UPS(productId) {
             this.emit('connected', this.deviceDescriptor);
         }
         this.connected = newValue
-            }
+    }
 
     this._setInitialized = function (newValue) {
         const valueChanged = this.initialized !== newValue;
@@ -143,7 +136,7 @@ function UPS(productId) {
         const checksum = onesComplement(commandBytes)
 
         try {
-        this.device.write([0x00, 0x3A, ...commandBytes, checksum, 0x0D]);
+            this.device.write([0x00, 0x3A, ...commandBytes, checksum, 0x0D]);
         } catch (err) {
             console.error(err)
             this._setConnected(false);
@@ -167,47 +160,6 @@ function UPS(productId) {
         })
     }
 
-    /**
-     * @typedef {Object} UPSState
-     * @property {boolean} autostartAfterDelayedWakeup
-     * @property {boolean} autostartAfterLowVoltageCutoff
-     * @property {boolean} autostartAfterOverload
-     * @property {boolean} autostartAfterOverTemp
-     * @property {boolean} autostartAfterShutdown
-     * @property {number} batteryCapacityPercentage Battery capacity in percentage
-     * @property {number} batteryCharge
-     * @property {boolean} batteryLow
-     * @property {string} deviceName Device model name
-     * @property {boolean} enableBiweeklyAutoSelfTest
-     * @property {string} faults: 'noFault',
-     * @property {string} firmware Firmware version
-     * @property {number} frequency AC Power frequencey
-     * @property {} frequencyMode AC Frequencey mode
-     * @property {boolean} idle
-     * @property {boolean} inverterOn 
-     * @property {number} loadLevel Output load level in percentage
-     * @property {array} loadRelaysPowered 
-     *                    Array of boolean values indicating the state of the load relays. 
-     *                    The number of relays included is determinted by the value of switchableLoads.
-     * @property {boolean} masterRelayPowered
-     * @property {number} nominalVac Nominal battery Voltage of the device
-     * @property {number} nominalVdc Nominal battery voltage of the device
-     * @property {number} powerRating Power rating in VA. 
-     * @property {boolean} selfTestRunning
-     * @property {string} selfTestState Self test state
-     * @property {boolean} standby
-     * @property {number} switchableLoads number of relays that can be switched, excluding the master. 
-     * @property {number} temperature not currently working correctly
-     * @property {string} transformerTap Transformer tap state
-     * @property {number} unitId
-     * @property {string} usbFirmware USB firmware version
-     * @property {number} voltageAc Current input AC voltage
-     * @property {number} voltageAcMax Hightest detected AC voltage
-     * @property {number} voltageAcMin Lowest detected AC voltage
-     * @property {number} voltageDc Current DC voltage
-     * @property {number} watchdogDelay 
-     * @property {boolean} watchdogEnabled
-     */
 
     /**
      * Return state immediately if initialized,
@@ -420,26 +372,30 @@ function UPS(productId) {
     }
 
 
-    /**
-     * @event change
-     * @type {object}
-     * @property {string} property Name of the property that has changed
-     * @property {boolean|string|number|array} value The new value of the property
-     * @property {boolean|string|number|array} oldValue The old value of the property
-     * @example
-     * ups.on('change', ({ property, value }) =>
-     *   console.log(`The ${property} value has changed to ${value}`)
-     * )
-     */
 
-    this._initDevice(productId);
+    this._initDevice();
     this._startPolling();
 
 }
 
 /**
- * Get a list of tripp-lite UPSs connected
- * @returns {array} - Array of available devices
+ * Get a list of tripp-lite UPSs connected. 
+ * The product ID can be used in the constructor function to connect to a specific device
+ * @returns {DeviceDescriptor[]} - Array of available devices
+ * @example
+ * console.log( UPS.list() );
+ * //Example return value
+ * // {
+ * //   vendorId: 2478,
+ * //   productId: 1,
+ * //   path: '\\\\?\\hid#vid_09ae&pid_0001#6&1e92950d&0&0000#{4d1e55b2-f16f-11cf-88cb-001111000030}',
+ * //   manufacturer: 'TRIPP LITE',
+ * //   product: 'TRIPP LITE SMART1000RM1U    ',
+ * //   release: 1,
+ * //   interface: -1,
+ * //   usagePage: 65440,
+ * //   usage: 1
+ * // }
  */
 UPS.list = function () {
     const devices = hid.devices();
@@ -450,3 +406,105 @@ UPS.list = function () {
 util.inherits(UPS, EventEmitter);
 
 module.exports = UPS;
+
+
+
+/**
+ * HID Descriptor for the device.
+* @typedef {Object} DeviceDescriptor
+* @property {number} vendorId Device vendor Id
+* @property {number} productId Used to select a specicific device in the constructor
+* @property {string} path HID path for the device
+* @property {string} product Product name
+* @property {string} manufacturer Device manufacturor
+* @property {number} interface
+* @property {number} usagePage
+* @property {number} usage
+*/
+
+/**
+ * State of a Tripp-Lite UPS
+ * @typedef {Object} UPSState
+ * @property {boolean} autostartAfterDelayedWakeup
+ * @property {boolean} autostartAfterLowVoltageCutoff
+ * @property {boolean} autostartAfterOverload
+ * @property {boolean} autostartAfterOverTemp
+ * @property {boolean} autostartAfterShutdown
+ * @property {number} batteryCapacityPercentage Battery capacity in percentage
+ * @property {number} batteryCharge
+ * @property {boolean} batteryLow
+ * @property {string} deviceName Device model name
+ * @property {boolean} enableBiweeklyAutoSelfTest
+ * @property {string} faults: 'noFault',
+ * @property {string} firmware Firmware version
+ * @property {number} frequency AC Power frequencey
+ * @property {number} frequencyMode AC Frequencey mode
+ * @property {boolean} idle
+ * @property {boolean} inverterOn
+ * @property {number} loadLevel Output load level in percentage
+ * @property {array} loadRelaysPowered
+ *                    Array of boolean values indicating the state of the load relays.
+ *                    The number of relays included is determinted by the value of switchableLoads.
+ * @property {boolean} masterRelayPowered
+ * @property {number} nominalVac Nominal battery Voltage of the device
+ * @property {number} nominalVdc Nominal battery voltage of the device
+ * @property {number} powerRating Power rating in VA.
+ * @property {boolean} selfTestRunning
+ * @property {string} selfTestState Self test state
+ * @property {boolean} standby
+ * @property {number} switchableLoads number of relays that can be switched, excluding the master.
+ * @property {number} temperature not currently working correctly
+ * @property {string} transformerTap Transformer tap state
+ * @property {number} unitId
+ * @property {string} usbFirmware USB firmware version
+ * @property {number} voltageAc Current input AC voltage
+ * @property {number} voltageAcMax Hightest detected AC voltage
+ * @property {number} voltageAcMin Lowest detected AC voltage
+ * @property {number} voltageDc Current DC voltage
+ * @property {number} watchdogDelay
+ * @property {boolean} watchdogEnabled
+ */
+
+/**
+ * Emitted when any device property changes
+ * @event UPS#change
+ * @type {object}
+ * @property {string} property Name of the property that has changed
+ * @property {boolean|string|number|array} value The new value of the property
+ * @property {boolean|string|number|array} oldValue The old value of the property
+ * @example
+ * ups.on('change', ({ property, value }) =>
+ *   console.log(`The ${property} value has changed to ${value}`)
+ * )
+ */
+
+/**
+ * Emitted when data for all properties has been received after a device is
+ * connected.
+* @event UPS#initialized
+* @type {UPSState}
+* @example
+* ups.on('initialized', state =>
+*   console.log(state)
+* )
+*/
+
+/**
+ * A device has been connected
+* @event UPS#connected
+* @type {DeviceDescriptor}
+* @example
+* ups.on('connected', deviceDescriptor =>
+*   console.log(`Connected to Tripp-lite UPS ${deviceDescriptor.productId}`)
+* )
+*/
+
+/**
+ * A device has been disconnected
+* @event UPS#disconnected
+* @type {DeviceDescriptor}
+* @example
+* ups.on('disconnected', deviceDescriptor =>
+*   console.log(`${deviceDescriptor.productId} has been disconnected`)
+* )
+*/
