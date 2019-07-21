@@ -266,8 +266,9 @@ function UPS(productId) {
 
     /**
      * Trigger a self-test
+     * @example
+     * ups.selfTest();
      */
-
     this.selfTest = function () {
         this._sendCommand('A');
         return this;
@@ -275,6 +276,8 @@ function UPS(productId) {
 
     /**
      * Reboot the UPS
+     * @example
+     * ups.reboot();
      */
     this.reboot = function () {
         this._sendCommand('Q');
@@ -284,6 +287,9 @@ function UPS(productId) {
     /**
      * Write the unit ID to the UPS
      * @param {number} unitId - 16bit unit number
+     * @example
+     * // Set the unit id to 42
+     * ups.writeUnitId(42);
      */
     this.writeUnitId = function writeUnitId(unitId) {
         const buf = new Buffer.alloc(2)
@@ -295,6 +301,9 @@ function UPS(productId) {
     /**
      * Write the pre-delay (used before shutdown and relay control functions)
      * @param {number} delayTime - delay time in seconds
+     * @example
+     * // Set the preDelaytime to 60 seconds
+     * ups.writePreDelay(60)
      */
     this.writePreDelay = function writePreDelay(delayTime) {
         const buf = new Buffer.alloc(2)
@@ -306,6 +315,9 @@ function UPS(productId) {
     /**
      * Turns a relay on
      * @param {number} relay - relay index (0=master)
+     * @example
+     * // Turn load 2 relay on
+     * ups.relayOn(2);
      */
     this.relayOn = function relayOn(relay = 0) {
         const relayId = 0x30 + relay;
@@ -316,6 +328,9 @@ function UPS(productId) {
     /**
      * Turns a relay off
      * @param {number} relay - relay index (0=master)
+     * @example
+     * // Turn load 1 relay off
+     * ups.relayOn(1);
      */
     this.relayOff = function relayOff(relay = 0) {
         const relayId = 0x30 + relay;
@@ -325,6 +340,8 @@ function UPS(productId) {
 
     /**
      * Turns master relay on
+     * @example
+     * ups.masterRelayOn();
      */
     this.masterRelayOn = function () {
         this.relayOn(0);
@@ -333,6 +350,8 @@ function UPS(productId) {
 
     /**
      * Turns master relay off
+     * @example
+     * ups.masterRelayOff();
      */
     this.masterRelayOff = function () {
         this.relayOff(0);
@@ -341,6 +360,8 @@ function UPS(productId) {
 
     /**
      * Disables the watchdog feature
+     * @example
+     * ups.disableWatchdog();
      */
     this.disableWatchdog = function disableWatchdog() {
         this._sendCommand('W', [0]);
@@ -350,6 +371,9 @@ function UPS(productId) {
     /**
      * Enables the watchdog feature
      * @param {number} delay - Delay time in seconds (must be >1);
+     * @example
+     * // Turn on the watchdog feature, setting the delay to 30 seconds
+     * ups.enableWatchdog(30)
      */
     this.enableWatchdog = function enableWatchdog(delay = 60) {
         const buf = new Buffer.alloc(1);
@@ -368,8 +392,6 @@ function UPS(productId) {
             }
         }, 100)
     }
-
-
 
     this._initDevice();
     this._startPolling();

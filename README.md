@@ -173,12 +173,20 @@ Power cycle the master relay
 Trigger a self-test
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.selfTest();
+```
 <a name="UPS+reboot"></a>
 
 ### ups.reboot()
 Reboot the UPS
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.reboot();
+```
 <a name="UPS+writeUnitId"></a>
 
 ### ups.writeUnitId(unitId)
@@ -190,6 +198,10 @@ Write the unit ID to the UPS
 | --- | --- | --- |
 | unitId | <code>number</code> | 16bit unit number |
 
+**Example**  
+```js
+// Set the unit id to 42ups.writeUnitId(42);
+```
 <a name="UPS+writePreDelay"></a>
 
 ### ups.writePreDelay(delayTime)
@@ -201,6 +213,10 @@ Write the pre-delay (used before shutdown and relay control functions)
 | --- | --- | --- |
 | delayTime | <code>number</code> | delay time in seconds |
 
+**Example**  
+```js
+// Set the preDelaytime to 60 secondsups.writePreDelay(60)
+```
 <a name="UPS+relayOn"></a>
 
 ### ups.relayOn(relay)
@@ -212,6 +228,10 @@ Turns a relay on
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
+**Example**  
+```js
+// Turn load 2 relay onups.relayOn(2);
+```
 <a name="UPS+relayOff"></a>
 
 ### ups.relayOff(relay)
@@ -223,24 +243,40 @@ Turns a relay off
 | --- | --- | --- |
 | relay | <code>number</code> | relay index (0=master) |
 
+**Example**  
+```js
+// Turn load 1 relay offups.relayOn(1);
+```
 <a name="UPS+masterRelayOn"></a>
 
 ### ups.masterRelayOn()
 Turns master relay on
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.masterRelayOn();
+```
 <a name="UPS+masterRelayOff"></a>
 
 ### ups.masterRelayOff()
 Turns master relay off
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.masterRelayOff();
+```
 <a name="UPS+disableWatchdog"></a>
 
 ### ups.disableWatchdog()
 Disables the watchdog feature
 
 **Kind**: instance method of [<code>UPS</code>](#UPS)  
+**Example**  
+```js
+ups.disableWatchdog();
+```
 <a name="UPS+enableWatchdog"></a>
 
 ### ups.enableWatchdog(delay)
@@ -252,6 +288,10 @@ Enables the watchdog feature
 | --- | --- | --- |
 | delay | <code>number</code> | Delay time in seconds (must be >1); |
 
+**Example**  
+```js
+// Turn on the watchdog feature, setting the delay to 30 secondsups.enableWatchdog(30)
+```
 <a name="UPS+event_change"></a>
 
 ### "change"
