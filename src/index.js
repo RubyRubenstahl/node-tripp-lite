@@ -40,11 +40,11 @@ function UPS(productId) {
     // Send connected and initialized events to any new
     // listeners when they connect. 
     this.on('newListener', (event, listener) => process.nextTick(() => {
-        if (event === 'connected') {
+        if (event === 'connected' && this.connected) {
             this.emit('connected', this.deviceDescriptor);
         }
 
-        if (event === 'initialized') {
+        if (event === 'initialized' && this.initialized) {
             this.emit('initialized', this.state);
         }
     }))
