@@ -21,5 +21,9 @@
     "fast-deep-equal": "^2.0.1",
     "node-hid": "^0.7.9",
     "sort-object": "^3.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RubyRubenstahl/node-tripp-lite"
   }
 }
