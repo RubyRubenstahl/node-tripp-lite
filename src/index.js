@@ -37,6 +37,19 @@ function UPS(productId) {
 
     this.connected = false;
 
+    // Send connected and initialized events to any new
+    // listeners when they connect. 
+    this.on('newListener', (event, listener) => process.nextTick(() => {
+        if (event === 'connected') {
+            this.emit('connected', this.deviceDescriptor);
+        }
+
+        if (event === 'initialized') {
+            this.emit('initialized', this.state);
+        }
+    }))
+
+
     // If a product ID is not specified, the first found device is used. 
     this._initDevice = function _initDevice() {
         const productId = this.productId
@@ -54,8 +67,6 @@ function UPS(productId) {
         else {
             setTimeout(() => this._initDevice(), 1000)
         }
-
-
     }
 
     this._setConnected = function (newValue) {
