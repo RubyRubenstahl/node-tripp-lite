@@ -12,6 +12,15 @@ communications and is compatible with both Windows and Linux nodejs versions.
 npm install node-tripp-lite
 ```
 
+### Linux installation
+This library uses node-hid for USB communication. In order to install on linux,
+you'll need to install libusb and libudev
+
+```sh
+sudo apt-get update
+sudo npm install libusb-1.0.0 libusb-dev libuv-dev
+```
+
 ## Usage
 
 ```js
@@ -305,6 +314,7 @@ Emitted when any device property changes
 | property | <code>string</code> | Name of the property that has changed |
 | value | <code>boolean</code> \| <code>string</code> \| <code>number</code> \| <code>array</code> | The new value of the property |
 | oldValue | <code>boolean</code> \| <code>string</code> \| <code>number</code> \| <code>array</code> | The old value of the property |
+| state | <code>object</code> | The complete state |
 
 **Example**  
 ```js

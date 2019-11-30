@@ -166,7 +166,7 @@ function UPS(productId) {
         }
         Object.keys(newState).forEach(key => {
             if (!deepEqual(oldState[key], newState[key])) {
-                this.emit('change', { property: key, value: newState[key], oldValue: oldState[key] })
+                this.emit('change', { property: key, value: newState[key], oldValue: oldState[key], state: newState })
             }
         })
     }
@@ -503,6 +503,7 @@ module.exports = UPS;
  * @property {string} property Name of the property that has changed
  * @property {boolean|string|number|array} value The new value of the property
  * @property {boolean|string|number|array} oldValue The old value of the property
+ * @property {object} state The complete state
  * @example
  * ups.on('change', ({ property, value }) =>
  *   console.log(`The ${property} value has changed to ${value}`)
