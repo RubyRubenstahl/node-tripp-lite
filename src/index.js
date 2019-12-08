@@ -60,7 +60,10 @@ function UPS(productId) {
 
         if (this.deviceDescriptor) {
             this.device = new hid.HID(this.deviceDescriptor.path);
-            this.device.on('error', err => console.error(err.message))
+            this.device.on('error', err => {
+                this._setConnected(false);
+                console.error(err);
+            })
             this.device.on('data', data => this._handleIncomingData(data));
             this._setConnected(true);
         }
@@ -136,7 +139,7 @@ function UPS(productId) {
      * @param {array} params - array of bytes representing the command parameters. 
      */
     this._sendCommand = function _sendCommand(opcode, params = []) {
-        if (!this.deviceDescriptor) {
+        if (!this.deviceDescriptor || !this.connected) {
             return;
         }
 
