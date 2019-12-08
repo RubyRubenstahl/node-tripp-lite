@@ -20,3 +20,6 @@ ups.on('initialized', state => {
     console.log(state)
 })
 
+ups.on("error", err => {
+  console.error("Initialized", err);
+});

@@ -1,7 +1,7 @@
 const UPS = require('../src/index');
 
 const ups = new UPS();
-ups.getStatus().then(status => console.log(status))
+ups.getStatus().then(status => console.log(status)).catch(err=>console.log(err))
 
 /*
 Example output:
