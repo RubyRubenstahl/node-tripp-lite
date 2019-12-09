@@ -152,7 +152,7 @@ function UPS(productId) {
         try {
             this.device.write([0x00, 0x3A, ...commandBytes, checksum, 0x0D]);
         } catch (err) {
-            console.error(err)
+            console.error('--------------------')
             this._setConnected(false);
         }
     }
@@ -174,6 +174,17 @@ function UPS(productId) {
         })
     }
 
+    // Emits power.lost and power.restored events
+    this.on('change', ({ property, value, oldValue }) => {
+        if (property === 'inverterOn') {
+            if (oldValue === false && value === true) {
+                this.emit('power.lost');
+            }
+            if (oldValue === true && value === false) {
+                this.emit("power.restored");
+            }
+        }
+    })
 
     /**
      * Returns a promise that will resolve to a `UPSState` Object

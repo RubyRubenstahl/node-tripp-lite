@@ -23,3 +23,11 @@ ups.on('initialized', state => {
 ups.on("error", err => {
   console.error("Initialized", err);
 });
+
+ups.on('power.lost', () => {
+    console.log('Power Lost');
+})
+
+ups.on("power.restored", () => {
+  console.log("Power Restored");
+});
