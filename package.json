@@ -1,6 +1,6 @@
 {
   "name": "node-tripp-lite",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Monitor and control Tripp-Lite UPSs via USB.",
   "main": "src/index.js",
   "keywords": [
