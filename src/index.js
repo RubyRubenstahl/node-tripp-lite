@@ -37,6 +37,9 @@ function UPS(productId) {
 
     this.connected = false;
 
+    // Holds polling interval to be cancelled when closed
+    this.pollingInterval = null;
+
     // Send connected and initialized events to any new
     // listeners when they connect. 
     this.on('newListener', (event, listener) => process.nextTick(() => {
@@ -48,6 +51,7 @@ function UPS(productId) {
             this.emit('initialized', this.state);
         }
     }))
+
 
 
     // If a product ID is not specified, the first found device is used. 
@@ -212,6 +216,16 @@ function UPS(productId) {
             checkInitialization()
         });
     }
+
+    /**
+     * Close connection to UPS and remove all event listeners
+     */
+    this.close = async function () { 
+        this._stopPolling();
+        this.removeAllListeners();
+        this.device.close();
+    }
+
 
     /**
      * Write system settings to the UPS. 
@@ -409,13 +423,19 @@ function UPS(productId) {
 
     this._startPolling = function _startPolling() {
         let currentIndex = 0;
-        setInterval(() => {
+        this.pollingInterval = setInterval(() => {
             const opcode = this.pollOpcodes[currentIndex]
             this._sendCommand(opcode, opcode === 'W' ? [1] : []);
             if (++currentIndex >= this.pollOpcodes.length) {
                 currentIndex = 0;
             }
         }, 100)
+    }
+
+    this._stopPolling = function _stopPolling() {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
+        }
     }
 
     this._initDevice();
